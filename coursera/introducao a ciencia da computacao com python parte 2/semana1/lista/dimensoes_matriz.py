@@ -15,3 +15,9 @@ dimensoes(minha_matriz)
 2X3
 
 """
+
+def dimensoes(matriz):
+    """
+    esta função imprime as dimensões de uma dada matriz.
+    """
+    print(f"{len(matriz)}X{len(matriz[0])}")
