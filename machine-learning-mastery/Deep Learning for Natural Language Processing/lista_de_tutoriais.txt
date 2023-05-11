@@ -1,0 +1,18 @@
+How to Configure an Encoder-Decoder Model for Neural Machine Translation
+https://machinelearningmastery.com/configure-encoder-decoder-model-neural-machine-translation/
+
+Encoder-Decoder Recurrent Neural Network Models for Neural Machine Translation
+https://machinelearningmastery.com/encoder-decoder-recurrent-neural-network-models-neural-machine-translation/
+
+Caption Generation with the Inject and Merge Encoder-Decoder Models
+https://machinelearningmastery.com/caption-generation-inject-merge-architectures-encoder-decoder-model/
+
+Encoder-Decoder Models for Text Summarization in Keras
+https://machinelearningmastery.com/encoder-decoder-models-text-summarization-keras/
+
+Encoder-Decoder Deep Learning Models for Text Summarization
+https://machinelearningmastery.com/encoder-decoder-deep-learning-models-text-summarization/
+
+
+
+

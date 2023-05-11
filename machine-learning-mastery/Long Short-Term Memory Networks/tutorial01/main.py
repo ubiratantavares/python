@@ -69,30 +69,49 @@ def to_supervised(sequence, n_in, n_out):
 
 
 # prepare data for the LSTM
-def get_data(n_in, n_out):
+def get_data(number_in, number_out):
+    """
+    number_in: numero de entrada.
+    number_out: numero de saida.
+    """
     # generate random sequence
     sequence = generate_sequence()
     # one hot encode
     encoded = one_hot_encode(sequence)
     # convert to X,y pairs
-    x_values, y_values = to_supervised(encoded, n_in, n_out)
+    x_values, y_values = to_supervised(encoded, number_in, number_out)
     return x_values, y_values
 
 
 # define model
-def define_model(n_in, encoded_length, batch_size, n_neurons):
+def define_model(number_in, encoded_length, batch_size, number_neurons):
+    """
+    number_in: numéro de entrada
+    encoded_length: comprimento do encoder
+    batch_size: tamanho do lote
+    number_neurons:
+    """
     model = Sequential()
-    model.add(LSTM(n_neurons, batch_input_shape=(batch_size, n_in, encoded_length), return_sequences=True, stateful=True))
+    model.add(LSTM(number_neurons,batch_input_shape=(batch_size, number_in, encoded_length),
+                   return_sequences=True, stateful=True))
     model.add(TimeDistributed(Dense(encoded_length, activation='softmax')))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
 # train model
-def train_model(n_in, n_out, encoded_length, batch_size, n_neurons, number_of_samples):
-    model = define_model(n_in, encoded_length, batch_size, n_neurons)
+def train_model(number_in, number_out, encoded_length, batch_size, number_neurons, number_of_samples):
+    """
+    number_in:numero de entrada
+    number_out:
+    encoded_length:
+    batch_size:
+    number_neurons:
+    number_of_samples:
+    """
+    model = define_model(number_in, encoded_length, batch_size, number_neurons)
     for _ in range(number_of_samples):
         # generate new random sequence
-        x_values, y_values = get_data(n_in, n_out)
+        x_values, y_values = get_data(number_in, number_out)
         # fit model for one epoch on this sequence
         model.fit(x_values, y_values, epochs=1, batch_size=batch_size, verbose=2, shuffle=False)
         model.reset_states()
@@ -100,16 +119,22 @@ def train_model(n_in, n_out, encoded_length, batch_size, n_neurons, number_of_sa
 
 
 # evaluate LSTM
-def evaluate_model(model, n_in, n_out, batch_size):
-    x_values, y_values = get_data(n_in, n_out)
+def evaluate_model(model, number_in, number_out, batch_size):
+    """
+    model: modelo treinado
+    number_in: numeo de entrada
+    number_out: numero de saida
+    batch_size: tamanho do lote
+    """
+    x_values, y_values = get_data(number_in, number_out)
     yhat = model.predict(x_values, batch_size=batch_size, verbose=0)
     # decode all pairs
-    for i in range(len(x_values)):
+    for i, _ in enumerate(x_values):
         print('Expected:', one_hot_decode(y_values[i]), 'Predicted', one_hot_decode(yhat[i]))
 
 def main():
     """
-    Função principal para a execução de todo o processo.
+    funcao principal
     """
     # generate random sequence
     sequence = generate_sequence()
@@ -128,7 +153,9 @@ def main():
     batch_size = 21
     n_neurons = 60
     number_of_samples = 1000
+
     lstm_train = train_model(n_in, n_out, encoded_length, batch_size, n_neurons, number_of_samples)
+
     evaluate_model(lstm_train, n_in, n_out, batch_size)
 
 if __name__ == "__main__":

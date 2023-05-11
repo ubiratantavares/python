@@ -51,28 +51,27 @@ def main():
     # horizontally stack columns
     dataset = hstack((in_seq1, in_seq2, out_seq))
     print(dataset)
+    print("1:", dataset.shape)
 
     # choose a number of time steps
-    number_steps_in, number_steps_out = 3, 2
+    number_steps_in, number_steps_out = 3, 1
 
     # convert into input/output
     x_input, y_output = split_sequences(dataset, number_steps_in, number_steps_out)
-    print(x_input.shape, y_output.shape)
+    print("2:", x_input.shape, y_output.shape)
 
-    # summarize the data
-    for i, _ in enumerate(x_input):
-        print(x_input[i], end="\n\n")
-        print(y_output[i])
-        print("\n\n")
+    print(x_input)
+
+    print("\n", y_output)
 
     # flatten input
     number_input = x_input.shape[1] * x_input.shape[2]
-
     x_input = x_input.reshape((x_input.shape[0], number_input))
 
     # flatten output
     number_output = y_output.shape[1] * y_output.shape[2]
     y_output = y_output.reshape((y_output.shape[0], number_output))
+    print("3:", x_input.shape, y_output.shape)
 
     # define model
     model = Sequential()
@@ -84,14 +83,13 @@ def main():
     model.fit(x_input, y_output, epochs=2000, verbose=0)
 
     # demonstrate prediction
-    x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
-    x_input = x_input.reshape((1, number_input))
-    yhat = model.predict(x_input, verbose=0)
-    #print(yhat)
+    x_test = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
+    print('4:', x_test.shape)
+    x_test = x_test.reshape((1, number_input))
 
-    yhat = yhat.reshape((2, 3))
-    print(yhat)
-
+    yhat = model.predict(x_test, verbose=0)
+    yhat = yhat.reshape((number_steps_out, 3))
+    print('5:', x_test.shape, yhat.shape)
 
 if __name__ == "__main__":
     main()
