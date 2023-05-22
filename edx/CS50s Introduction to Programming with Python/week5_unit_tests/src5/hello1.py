@@ -2,7 +2,6 @@
 @ author David Malan
 """
 
-
 def main():
     """
     function main
